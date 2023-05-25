@@ -24,15 +24,17 @@ app.get('/api/yelp', async (req, res) => {
         Authorization: `Bearer ${yelpApiKey}`,
       },
     };
-    console.log('Recibida solicitud a /api/yelp');
+
     const yelpResponse = await axios.get(
       `https://api.yelp.com/v3/businesses/search?latitude=${adjustedLatitude}&longitude=${adjustedLongitude}&categories=restaurants&limit=3&sort_by=best_match`,
       options
     );
-    console.log('Respuesta de Yelp recibida');
+
     const restaurants = yelpResponse.data.businesses.map((business) => {
       const { name, location } = business;
       const address = location.display_address.join(', ');
+      console.log(name);
+      console.log(address);
       return { name, address };
     });
 
