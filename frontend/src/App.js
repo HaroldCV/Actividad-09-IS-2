@@ -35,7 +35,7 @@ const App = () => {
       const weatherData = await weatherResponse.json();
       const tomorrowWeather = weatherData.daily.temperature_2m_max[1];
 
-      const yelpApiKey = 'uBqK1T1TTqXIXU4Vs-kLxB-A7vjnljkCtXlEot8yFwW1wxVKILptmRBaEh4saV1l1ok4gFQN9p7S2AzrMzb-uqPEmOa9Eq2gtbAQE-qmau-ALWXXOaixe6AJXYJuZHYx'; // Reemplaza con tu propia clave de API de Yelp
+      const yelpApiKey = '2NOSzJJj4SLL1wvE7mdIXYCs2S50MmCiZgpiUyTMMe1umXrzb6XixgieCKb2ku7j0kezXREOBut-v74qw0Ai_SbLPjfpDbNEQ4KPdw__rvE3GrtET4WnmJ0kWpRuZHYx'; // Reemplaza con tu propia clave de API de Yelp
       const yelpClientId = 'rFrNLlntauvYvyB8cEJodQ'; // Reemplaza con tu propio ID de cliente de Yelp
 
       const options = {
@@ -47,20 +47,23 @@ const App = () => {
         },
       };
 
+      // Reemplaza la URL anterior
       const yelpResponse = await fetch(
         `http://localhost:3001/api/yelp?latitude=${latitude}&longitude=${longitude}`,
         options
       );
+      
+
       const yelpData = await yelpResponse.json();
-      const restaurantItems = yelpData.businesses;
-      const filteredRestaurants = restaurantItems.map((item) => {
-        const { name, location } = item;
+      console.log(yelpData)
+      const filteredRestaurants = yelpData.map((item) => {
+        const { name, address } = item; // Asegúrate de que las propiedades sean correctas
         return {
           name,
-          address: location.address1,
+          address,
         };
       });
-
+      
       setWeather(tomorrowWeather);
       setRestaurants(filteredRestaurants);
       setIsFetching(false);
@@ -83,6 +86,7 @@ const App = () => {
         <>
           {weather && <Weather temperature={weather} />}
           {restaurants.length > 0 && <RestaurantList restaurants={restaurants} />}
+
         </>
       )}
     </div>
