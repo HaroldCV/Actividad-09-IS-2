@@ -13,7 +13,7 @@ const coordinateOffset = 0.01;
 app.get('/api/yelp', async (req, res) => {
   try {
     const { latitude, longitude } = req.query;
-    const yelpApiKey = 'uBqK1T1TTqXIXU4Vs-kLxB-A7vjnljkCtXlEot8yFwW1wxVKILptmRBaEh4saV1l1ok4gFQN9p7S2AzrMzb-uqPEmOa9Eq2gtbAQE-qmau-ALWXXOaixe6AJXYJuZHYx';
+    const yelpApiKey = '2NOSzJJj4SLL1wvE7mdIXYCs2S50MmCiZgpiUyTMMe1umXrzb6XixgieCKb2ku7j0kezXREOBut-v74qw0Ai_SbLPjfpDbNEQ4KPdw__rvE3GrtET4WnmJ0kWpRuZHYx';
 
     const adjustedLatitude = parseFloat(latitude) + getRandomOffset();
     const adjustedLongitude = parseFloat(longitude) + getRandomOffset();
@@ -24,12 +24,12 @@ app.get('/api/yelp', async (req, res) => {
         Authorization: `Bearer ${yelpApiKey}`,
       },
     };
-
+    console.log('Recibida solicitud a /api/yelp');
     const yelpResponse = await axios.get(
       `https://api.yelp.com/v3/businesses/search?latitude=${adjustedLatitude}&longitude=${adjustedLongitude}&categories=restaurants&limit=3&sort_by=best_match`,
       options
     );
-
+    console.log('Respuesta de Yelp recibida');
     const restaurants = yelpResponse.data.businesses.map((business) => {
       const { name, location } = business;
       const address = location.display_address.join(', ');
